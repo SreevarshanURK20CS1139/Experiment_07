@@ -1,95 +1,105 @@
-<!DOCTYPE html>
+
 <html>
     <head>
-        <title>Moving Car</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script>
-            $(document).ready(function()
-            {
-                $(document).keydown(function(event)
-                {
-                    var car = $('#car')
-                    var arrow = {left: 37, up: 38, right: 39, down: 40 };
-                    
-                    switch(event.which)
-                    {
-                        case arrow.right: 
-                        car.css('transform','rotate(360deg)');
-                        car.animate({left:'+=5px'},1); 
-                        break;
-                        case arrow.down:  
-                        car.css('transform','rotate(90deg)');
-                        car.animate({top:'+=5px'},1);
-                        break;
-                        case arrow.up:    
-                        car.css('transform','rotate(270deg)');
-                        car.animate({top:'-=5px'},1);
-                        break;
-                        case arrow.left:  
-                        car.css('transform','rotateY(180deg)');
-                        car.animate({left:'-=5px'},1);
-                        break;
-                    }
-                    var car = $('#car');
-                    var car_pos = $('#car').position();
-                    var l = car_pos.left;
-                    var t = car_pos.top;
-                    if (l > 0 && l < 268  ) 
-                    {
-                        if(t < 85 || t >250)
-                        {
-                            $('#car').fadeOut('slow');
-                            $('#car').fadeIn('slow');  
-                        }
-                    }
-                    if (l >470) 
-                    {
-                        if(t < 85 || t >250)
-                        {
-                            $('#car').fadeOut('slow');
-                            $('#car').fadeIn('slow');  
-                        }
-                    }
-            
-                 })
-            })
-        </script>
-            <style>
-            *{
-                margin: 0px;
-                padding: 0px;
-                box-sizing: border-box;
-            }
-            .r1 {
-                  position: fixed;
-                  z-index: 0;
-                  top:0px;
-                  width: 200px;
-                  height: 800px;
-                  left: 40%;
-                  background-color: black;
-            }
-            .r2{
-                position: fixed;
-                top:100px;
-                z-index: 1;
-                width: 100%;
-                height: 200px;
-                background-color: black;
-            }
-
-            </style>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <link rel="stylesheet" href="C.css">
     </head>
-    <body>
-        <div id="car" style="position:absolute;z-index:3;left:5px; top:100px;width:80px;height:50px;">
-            <img id="car" src="data:image/jpeg;base64,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" alt="" width="80" height="50">
-        </div>
-        <br>
-        <div class="r1"></div>
-        <div class="r2"></div>
-    </body>
-</html>
+    <style>
+     fieldset{
+     height: 90px;
+     }
+     .track img{
+     position: absolute;
+     height: 70px;
+     width: 80px;
+     }
+     .choose img{
+     align-items: center;
+     height: 150px;
+     width: 150px;
+     padding-right: 50px;
+     }
+     .choose button{
+     align-items: center;
+     margin-right: 50px;
+     margin-left: 80px;
+     }
+     .choose{
+     padding-left: 400px;
+     }
+     .track{
+     background-color: black;
+     }
+    </style>
+    <script>
+     $(document).ready(function(){
+     $("#boy1").hide()
+     $("#tiger1").hide()
+     $("#lion1").hide()
+     $("#cheetah1").hide()
+     $("#boy").click(function(){
+     $("#boy").hide();
+     $("#boy1").show();
+     });
+     $("#lion").click(function(){
+     $("#lion").hide();
+     $("#lion1").show();
+     });
+     $("#tiger").click(function(){
+     $("#tiger").hide();
+     $("#tiger1").show();
+     });
+     $("#cheetah").click(function(){
+     $("#cheetah").hide();
+     $("#cheetah1").show();
+     });
+     $("#start").click(function(){
+     var CWidth = $('#boy1').width();
+     var RaceTrackWidth = $(window).width() - (CWidth+100);
+     var boyTime = Math.floor((Math.random() * 5000) + 1);
+     var tigerTime = Math.floor((Math.random() * 5000) + 1);
+     var lionTime = Math.floor((Math.random() * 5000) + 1);
+     var cheetahTime = Math.floor((Math.random() * 5000) + 1);
+     $('#boy1').animate({left: RaceTrackWidth},boyTime);
+     $('#tiger1').animate({left: RaceTrackWidth},tigerTime);
+     $('#lion1').animate({left: RaceTrackWidth},lionTime);
+     $('#cheetah1').animate({left: RaceTrackWidth},cheetahTime);
+     $("#reset").click(function(){
+     $('#boy1').css('left', '50px');
+     $('#tiger1').css('left', '50px');
+     $('#lion1').css('left', '50px');
+     $('#cheetah1').css('left', '50px');
+     });
+     });
+    });
+    </script>
+     <body>
+     <div class="track" >
+     <fieldset id="track1">
+     <img id="boy1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdB6cyS5B-XC3-7TrsWGJsaledduQ_RDRKvA&usqp=CAU" alt="auto" >
+     </fieldset>
+     <fieldset id="track2">
+     <img id="tiger1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwH2GRcQG-u3RCTIIU9kqjjF7NwWCk2IpyDA&usqp=CAU" alt="car">
+     </fieldset>
+     <fieldset id="track3">
+     <img id="lion1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVgOAgCQ5Ty_I2FjCYfG3IrZmy4madP888gQ&usqp=CAU" alt="Cycle">
+     </fieldset>
+     <fieldset id="track4">
+     <img id="cheetah1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlXN6CwMJFsKvg1_Rj_AvG69DOdai2aQAgOw&usqp=CAU" alt="lorry">
+     </fieldset>
+     </div>
+     <button id="start">START</button>
+     <button id="reset">RESET</button>
+     <div class="choose">
+     <img id="boy" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdB6cyS5B-XC3-7TrsWGJsaledduQ_RDRKvA&usqp=CAU" alt="auto">
+     <img id="tiger" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwH2GRcQG-u3RCTIIU9kqjjF7NwWCk2IpyDA&usqp=CAU" alt="car">
+     <img id="lion" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVgOAgCQ5Ty_I2FjCYfG3IrZmy4madP888gQ&usqp=CAU" alt="Cycle">
+     <img id="cheetah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlXN6CwMJFsKvg1_Rj_AvG69DOdai2aQAgOw&usqp=CAU" alt="lorry">
+     <br>
+     </div>
+     <div class="ans">
+     </div>
+     <script src="J.js"></script>
+     </body>
+    
+    </html>
